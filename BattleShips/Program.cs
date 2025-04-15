@@ -43,7 +43,7 @@ namespace BattleShips
 
                 if (!IsValidCoordinate(input))
                 {
-                    Console.WriteLine("coordinates are not valid. Please use format like 'A5'.");
+                    Console.WriteLine("coordinates are not valid. Please use format like 'A5' (Column-Row)");
                     continue;
                 }
 
@@ -62,35 +62,6 @@ namespace BattleShips
         static bool IsValidCoordinate(string coordinate)
         {
             return Regex.IsMatch(coordinate, @"^[A-J][1-9]|10$");
-        }
-    }
-
-
-    public class Position : IEquatable<Position>
-    {
-        public int Row { get; }
-        public int Column { get; }
-
-        public Position(int row, int column)
-        {
-            Row = row;
-            Column = column;
-        }
-
-        public bool Equals(Position other)
-        {
-            if (other == null) return false;
-            return Row == other.Row && Column == other.Column;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Position);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Row, Column);
         }
     }
 }

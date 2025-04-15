@@ -20,7 +20,7 @@ namespace BattleShips
             _grid = new int[rows, columns];
         }
 
-        public bool IsOccupied(Position position)
+        public bool IsCellPositionOccupied(Position position)
         {
             var isOccupied = _grid[position.Row, position.Column];
             if(isOccupied == 1)
