@@ -20,19 +20,30 @@ namespace BattleShips
             _grid = new int[rows, columns];
         }
 
-        public bool IsCellPositionOccupied(Position position)
+        public string IsCellPositionOccupied(Position position)
         {
-            var isOccupied = _grid[position.Row, position.Column];
-            if(isOccupied == 1)
+            try
             {
-                return true;
+                //gets the value in the grid cell position, returns 1 if its occupied and 0 if it's empty
+                var isOccupied = _grid[position.Row, position.Column];
+                if (isOccupied == 1)
+                {
+                    return "1";
+                }
+                else { return "2"; }
             }
-            else { return false; }
+            catch (Exception ex)
+            {
+               Console.WriteLine("The provided coordinate is out of bounds of the array");
+               return "0";
+            }
+          
            
         }
 
         public void PlaceShip(Position position)
         {
+            //this assign value 1 into the cell position to depiect a ship is in that cell
             _grid[position.Row, position.Column] = 1;
 
         }

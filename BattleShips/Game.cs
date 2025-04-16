@@ -32,6 +32,7 @@ namespace BattleShips
         {
             PositionShipsIntoGrids();
 
+            //prints the grid with the values of the positioned ships (depicted with 1s)
             _gameGrid.PrintGrid();
         }
 
@@ -90,7 +91,7 @@ namespace BattleShips
 
                         // Try to place the ship
                         var positions = new List<Position>();
-                        bool canPlace = true;
+                        bool shipsCanBePlaced = true;
 
                         //loops through the size of the ship i.e each cell the ship is made up to be placed into their position
                         for (int j = 0; j < ship.Size; j++)
@@ -115,9 +116,9 @@ namespace BattleShips
                             var position = new Position(row, col);
 
                             // Check if cell position is already occupied
-                            if (_gameGrid.IsCellPositionOccupied(position))
+                            if (_gameGrid.IsCellPositionOccupied(position) == "1")
                             {
-                                canPlace = false;
+                                shipsCanBePlaced = false;
                                 break;
                             }
 
@@ -125,12 +126,14 @@ namespace BattleShips
                             positions.Add(position);
                         }
 
-                        if (canPlace)
+                        if (shipsCanBePlaced)
                         {
-                            // Place the ship
+                            // loops through list of ship cell positions for each ship and place the ship into their individual postion (i.e. assigning value 1 into this position to depict the ship)
                             foreach (var position in positions)
                             {
                                 _gameGrid.PlaceShip(position);
+
+                                //also add the cell positions of each ship in the ship object to keep track of ships' location
                                 ship.AddPosition(position);
                             }
                             _ships.Add(ship);
@@ -153,15 +156,18 @@ namespace BattleShips
                 return "You have fired a shot at this position already. Try again";
             }
 
+            //add the cordinate and hit count to the shot history
             _shotHistory.Add(coordinate, hitCount+1);
 
-            // Check if hit a ship
-            if (_gameGrid.IsCellPositionOccupied(position))
+            // Checks if hit a ship
+            var isOccupied = _gameGrid.IsCellPositionOccupied(position);
+            if (isOccupied == "1")
             {
-                // Register hit with the appropriate ship
+               //fetches from the list of ship and loops through the list of positions to get any postion equal to provided cell position 
                 var hitShip = _ships.FirstOrDefault(s => s.Positions.Any(p => p.Equals(position)));
                 if (hitShip != null)
                 {
+                    // Register hit with the appropriate ship
                     hitShip.AddHitToInMemoryDB(position);
 
                     if (hitShip.IsSunk)
@@ -174,8 +180,15 @@ namespace BattleShips
 
                 return "Hit!"; // Fallback, should not reach here
             }
-
-            return "Miss!";
+            else if (isOccupied == "2")
+            {
+                return "Miss!";
+            }
+            else
+            {
+                return "The provided coordinate is out of the grid bounds";
+            }
+            
         }
 
         private Position ConvertCoordinateToPosition(string coordinate)
@@ -197,21 +210,12 @@ namespace BattleShips
             Column = column;
         }
 
-        public bool Equals(Position other)
+        public bool Equals(Position otherPosition)
         {
-            if (other == null) return false;
-            return Row == other.Row && Column == other.Column;
+            if (otherPosition == null) return false;
+            return Row == otherPosition.Row && Column == otherPosition.Column;
         }
 
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Position);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Row, Column);
-        }
     }
 
 }
