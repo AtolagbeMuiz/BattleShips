@@ -1,4 +1,4 @@
-###Project Review
+Project Review
 This project is a one-sided mini-game called Battleship where the battleships are aligned into a 10x10 grid, where the column are labeled from A-J and rows labeled 1-10.
 whereby user enter input in the form of column-row format. for example user input like "A5" means column A row 5. 
 
@@ -10,4 +10,4 @@ i.e. 0 means cell is empty
      1 means cell has a ship positioned there
 As seen below;
 
-![](Battleships/Battleships/Image/screenshot.png)
+![](Battleships/Image/screenshot.png)
