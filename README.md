@@ -10,4 +10,4 @@ i.e. 0 means cell is empty
      1 means cell has a ship positioned there
 As seen below;
 
-![image.png](Battleships/Image/screenshot.png)
+![image.png](/Battleships/Image/screenshot.png)
